@@ -5,7 +5,7 @@ Instructor : 陳冠文
 Semester : 2023 Spring
 
 ## Install
-``` Bash=
+``` bash
 pip install opencv-python
 pip install numpy
 ```
