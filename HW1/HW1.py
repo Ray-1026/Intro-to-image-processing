@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import math
 
 img=cv2.imread('test.jpg')
 
@@ -57,10 +58,14 @@ def bilinear_interpolation(img, y, x):
 
     temp=img[0:y//3, x//3:x//3*2].copy()
 
-    for i in range(1, h):
-        for j in range(1, w):
+    for i in range(h):
+        for j in range(w):
             xf=(j+0.5)/2-0.5
             yf=(i+0.5)/2-0.5
+            if xf<0:
+                xf=0
+            if yf<0:
+                yf=0
             xi=min(int(xf), w-2)
             yi=min(int(yf), h-2)
             dx=xf-xi
