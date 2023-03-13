@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-import math
 
 img=cv2.imread('test.jpg')
 
@@ -81,38 +80,47 @@ def bilinear_interpolation(img, y, x):
 img=bilinear_interpolation(img, y, x)
 
 #bicubic interpolation
-def Weight(x):
-    a=-0.5
-    x=abs(x)
-    if x<=1:
-        return (a+2)*(x**3)-(a+3)*(x**2)+1
-    elif 1<x<2:
-        return a*(x**3)-5*a*(x**2)+8*a*x-4*a
-    else:
-        return 0
-
 def bicubic_interpolation(img, y, x):
     h=y//3
     w=x//3
     temp=img[y//3:y//3*2, x//3:x//3*2].copy()
-
+    
     for i in range(h):
         for j in range(w):
             xf=(j+0.5)/2-0.5
             yf=(i+0.5)/2-0.5
-            xi=int(xf)
-            yi=int(yf)
+            if xf<0:
+                xf=0
+            if yf<0:
+                yf=0
+            xi=min(int(xf), w-2)
+            yi=min(int(yf), h-2)
             dx=xf-xi
             dy=yf-yi
 
-            res_b, res_g, res_r=0, 0, 0
+            new_b=[]
+            new_g=[]
+            new_r=[]
+
             for k in range(-1, 3):
+                r=[]
+                g=[]
+                b=[]
                 for m in range(-1, 3):
-                    if 0<=yi+k<h and 0<=xi+m<w:
-                        res_b+=temp[yi+k, xi+m, 0]*Weight(k-dy)*Weight(m-dx)
-                        res_g+=temp[yi+k, xi+m, 1]*Weight(k-dy)*Weight(m-dx)
-                        res_r+=temp[yi+k, xi+m, 2]*Weight(k-dy)*Weight(m-dx)
-            img[y//3+i, x//3+j]=[np.clip(res_b, 0, 255), np.clip(res_g, 0, 255), np.clip(res_r, 0, 255)]
+                    if 0<=xi+m<w and 0<=yi+k<h:
+                        b.append(temp[yi+k, xi+m, 0])
+                        g.append(temp[yi+k, xi+m, 1])
+                        r.append(temp[yi+k, xi+m, 2])
+                    else:
+                        b.append(0)
+                        g.append(0)
+                        r.append(0)
+                new_b.append((-0.5*b[0]+1.5*b[1]-1.5*b[2]+0.5*b[3])*dx**3+(b[0]-2.5*b[1]+2*b[2]-0.5*b[3])*dx**2+(-0.5*b[0]+0.5*b[2])*dx+b[1])
+                new_g.append((-0.5*g[0]+1.5*g[1]-1.5*g[2]+0.5*g[3])*dx**3+(g[0]-2.5*g[1]+2*g[2]-0.5*g[3])*dx**2+(-0.5*g[0]+0.5*g[2])*dx+g[1])
+                new_r.append((-0.5*r[0]+1.5*r[1]-1.5*r[2]+0.5*r[3])*dx**3+(r[0]-2.5*r[1]+2*r[2]-0.5*r[3])*dx**2+(-0.5*r[0]+0.5*r[2])*dx+r[1])
+            img[y//3+i, x//3+j, 0]=np.clip((-0.5*new_b[0]+1.5*new_b[1]-1.5*new_b[2]+0.5*new_b[3])*dy**3+(new_b[0]-2.5*new_b[1]+2*new_b[2]-0.5*new_b[3])*dy**2+(-0.5*new_b[0]+0.5*new_b[2])*dy+new_b[1], 0, 255)
+            img[y//3+i, x//3+j, 1]=np.clip((-0.5*new_g[0]+1.5*new_g[1]-1.5*new_g[2]+0.5*new_g[3])*dy**3+(new_g[0]-2.5*new_g[1]+2*new_g[2]-0.5*new_g[3])*dy**2+(-0.5*new_g[0]+0.5*new_g[2])*dy+new_g[1], 0, 255)
+            img[y//3+i, x//3+j, 2]=np.clip((-0.5*new_r[0]+1.5*new_r[1]-1.5*new_r[2]+0.5*new_r[3])*dy**3+(new_r[0]-2.5*new_r[1]+2*new_r[2]-0.5*new_r[3])*dy**2+(-0.5*new_r[0]+0.5*new_r[2])*dy+new_r[1], 0, 255)
     return img
 
 img=bicubic_interpolation(img, y, x)
