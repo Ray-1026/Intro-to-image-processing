@@ -1,4 +1,4 @@
-# NYCU-intro-to-image-processing
+# Intro-to-image-processing
 
 Instructor : 陳冠文
 
