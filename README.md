@@ -25,4 +25,8 @@ pip install numpy
 - Histogram Specification
 - Gaussian Filter
 
+## HW3 (Handwritten)
+
+## HW4
+
 **Function calls aren't acceptable in homeworks.**
