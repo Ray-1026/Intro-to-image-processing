@@ -1,9 +1,9 @@
 import cv2
 import numpy as np
 
-q1 = cv2.imread('../img/Q1.jpg', cv2.IMREAD_GRAYSCALE)
-q2 = cv2.imread('../img/Q2.jpg', cv2.IMREAD_GRAYSCALE)
-q3 = cv2.imread('../img/Q3.jpg', cv2.IMREAD_GRAYSCALE)
+q1 = cv2.imread('img/Q1.jpg', cv2.IMREAD_GRAYSCALE)
+q2 = cv2.imread('img/Q2.jpg', cv2.IMREAD_GRAYSCALE)
+q3 = cv2.imread('img/Q3.jpg', cv2.IMREAD_GRAYSCALE)
 
 
 def generateCDF(img):
@@ -75,8 +75,8 @@ q3_gaussian_filter = Convolution(q3)
 cv2.imshow('Histogram Equalization', q1_heq)
 cv2.imshow('Histogram Specification', q1_hspec)
 cv2.imshow('Gaussian Filter', q3_gaussian_filter)
-cv2.imwrite('../img/Q1_heq.jpg', q1_heq)
-cv2.imwrite('../img/Q1_hspec.jpg', q1_hspec)
-cv2.imwrite('../img/Q3_GF.jpg', q3_gaussian_filter)
+cv2.imwrite('img/Q1_heq.jpg', q1_heq)
+cv2.imwrite('img/Q1_hspec.jpg', q1_hspec)
+cv2.imwrite('img/Q3_GF.jpg', q3_gaussian_filter)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
