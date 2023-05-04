@@ -28,5 +28,7 @@ pip install numpy
 ## HW3 (Handwritten)
 
 ## HW4
+- Fourier Spectrum
+- Notch reject filter
 
 **Function calls aren't acceptable in homeworks.**
