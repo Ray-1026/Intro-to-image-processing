@@ -31,4 +31,5 @@ pip install numpy
 - Fourier Spectrum
 - Notch reject filter
 
-**Function calls aren't acceptable in homeworks.**
+## HW5 (Handwritten)
+
